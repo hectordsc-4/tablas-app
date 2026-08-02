@@ -6,7 +6,7 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+psycopg2://postgres:exi_local_2026@localhost:5432/exi_db"
     app_name: str = "EXI API"
-    debug: bool = True
+    debug: bool = False
     cors_origins: str = "*"
 
     # SMTP (vacío = modo local: guarda el correo en backend/outbox/)

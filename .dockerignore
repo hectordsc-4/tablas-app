@@ -1,0 +1,16 @@
+.git
+.gitignore
+**/.env
+**/.venv
+**/venv
+**/__pycache__
+**/*.pyc
+**/outbox
+tools
+*.log
+.DS_Store
+README.md
+.dockerignore
+Dockerfile
+docker-compose*.yml
+docker-compose*.yaml

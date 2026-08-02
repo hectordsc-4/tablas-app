@@ -1,0 +1,39 @@
+# Ejemplo local / referencia Coolify.
+# En el VPS usa el PostgreSQL del servidor (no hace falta el servicio db).
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg2://postgres:exi_local_2026@db:5432/exi_db}
+      APP_NAME: EXI API
+      DEBUG: "false"
+      CORS_ORIGINS: "*"
+      PORT: "8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: exi_local_2026
+      POSTGRES_DB: exi_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - exi_pgdata:/var/lib/postgresql/data
+      - ./database/tables.sql:/docker-entrypoint-initdb.d/01-tables.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d exi_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  exi_pgdata:
