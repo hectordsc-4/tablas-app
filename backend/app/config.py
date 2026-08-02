@@ -2,8 +2,16 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+        # Las variables del contenedor (Coolify) mandan sobre el .env local.
+        env_ignore_empty=True,
+    )
 
+    # Sin default a localhost: obliga a definir DATABASE_URL en Coolify/producción.
+    # Para local, usa backend/.env (ver .env.example).
     database_url: str = "postgresql+psycopg2://postgres:exi_local_2026@localhost:5432/exi_db"
     app_name: str = "EXI API"
     debug: bool = False

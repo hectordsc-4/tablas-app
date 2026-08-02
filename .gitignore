@@ -11,3 +11,5 @@ tools/*.zip
 tools/pgpass.txt
 *.log
 .DS_Store
+deploy/coolify.env
+
