@@ -19,16 +19,16 @@ Sistema **PostgreSQL + FastAPI + HTML/CSS/JS**.
 3. Puerto: **8000** (o el que inyecte Coolify vía `PORT`).
 4. Variables de entorno (mismas que baseapps / Postgres lista-viva):
 
-| Variable | Ejemplo |
-|----------|---------|
-| `DATABASE_URL` | `postgresql+psycopg2://listaviva:PASS@HOST:5432/exi_db` |
-| `BOOTSTRAP_DATABASE_URL` | `postgresql+psycopg2://listaviva:PASS@HOST:5432/listaviva` |
-| `BOOTSTRAP_DB` | `listaviva` |
-| `APP_NAME` | `EXI API` |
-| `DEBUG` | `false` |
-| `CORS_ORIGINS` | `*` (o tu dominio) |
+| Variable | Ejemplo | Coolify |
+|----------|---------|---------|
+| `DATABASE_URL` | `postgresql+psycopg2://listaviva:PASS@HOST:5432/exi_db` | **Runtime ON**, Build OFF |
+| `BOOTSTRAP_DATABASE_URL` | `postgresql+psycopg2://listaviva:PASS@HOST:5432/listaviva` | Runtime ON, Build OFF |
+| `BOOTSTRAP_DB` | `listaviva` | Runtime ON |
+| `APP_NAME` | `EXI API` | Runtime ON |
+| `DEBUG` | `false` | Runtime ON |
+| `CORS_ORIGINS` | `*` | Runtime ON |
 
-Si Postgres está en el mismo servidor/Docker network, usa el hostname interno del servicio (no `localhost` desde dentro del contenedor de la API).
+Importante: el **Value** no puede estar vacío. No uses `localhost`. No marques solo Build Variable (deja la URL vacía en la imagen).
 
 Al arrancar el contenedor:
 1. Crea `exi_db` si no existe (vía bootstrap `listaviva`).

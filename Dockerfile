@@ -1,22 +1,12 @@
 FROM python:3.12-slim
 
-# Coolify inyecta estas como build-args si están marcadas en Environment Variables.
-ARG DATABASE_URL
-ARG BOOTSTRAP_DATABASE_URL
-ARG BOOTSTRAP_DB=listaviva
-ARG APP_NAME=EXI API
-ARG DEBUG=false
-ARG CORS_ORIGINS=*
+# No meter DATABASE_URL como ARG/ENV aquí: en el build suele llegar vacío
+# y deja DATABASE_URL="" en la imagen, rompiendo el arranque.
+# Coolify debe inyectar las variables en Runtime.
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PORT=8000 \
-    DATABASE_URL=${DATABASE_URL} \
-    BOOTSTRAP_DATABASE_URL=${BOOTSTRAP_DATABASE_URL} \
-    BOOTSTRAP_DB=${BOOTSTRAP_DB} \
-    APP_NAME=${APP_NAME} \
-    DEBUG=${DEBUG} \
-    CORS_ORIGINS=${CORS_ORIGINS}
+    PORT=8000
 
 WORKDIR /app
 
