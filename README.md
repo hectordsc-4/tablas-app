@@ -17,33 +17,25 @@ Sistema **PostgreSQL + FastAPI + HTML/CSS/JS**.
 1. En Coolify: **New Resource → Application** → repo `hectordsc-4/tablas-app`.
 2. Build Pack: **Dockerfile** (usa el `Dockerfile` de la raíz).
 3. Puerto: **8000** (o el que inyecte Coolify vía `PORT`).
-4. Variables de entorno:
+4. Variables de entorno (mismas que baseapps / Postgres lista-viva):
 
 | Variable | Ejemplo |
 |----------|---------|
-| `DATABASE_URL` | `postgresql+psycopg2://USER:PASS@HOST:5432/exi_db` |
+| `DATABASE_URL` | `postgresql+psycopg2://listaviva:PASS@HOST:5432/exi_db` |
+| `BOOTSTRAP_DATABASE_URL` | `postgresql+psycopg2://listaviva:PASS@HOST:5432/listaviva` |
+| `BOOTSTRAP_DB` | `listaviva` |
 | `APP_NAME` | `EXI API` |
 | `DEBUG` | `false` |
 | `CORS_ORIGINS` | `*` (o tu dominio) |
 
 Si Postgres está en el mismo servidor/Docker network, usa el hostname interno del servicio (no `localhost` desde dentro del contenedor de la API).
 
-5. **Una vez** crea la BD (si no existe) y aplica tablas:
+Al arrancar el contenedor:
+1. Crea `exi_db` si no existe (vía bootstrap `listaviva`).
+2. Aplica `database/tables.sql` si faltan tablas.
+3. Levanta FastAPI + frontend.
 
-```bash
-# En el servidor / contenedor con psql, o desde un cliente:
-psql "postgresql://USER:PASS@HOST:5432/exi_db" -f database/tables.sql
-```
-
-O con el script:
-
-```bash
-export DATABASE_URL="postgresql://USER:PASS@HOST:5432/exi_db"
-chmod +x database/init_db.sh
-./database/init_db.sh
-```
-
-6. Deploy. Healthcheck: `GET /api/health`.
+5. Deploy. Healthcheck: `GET /api/health`. Login de prueba: `admin` / `admin123`.
 
 La app sirve frontend + API en el mismo origen (`/`, `/home`, `/admin`, `/api/...`).
 
